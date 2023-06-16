@@ -1,25 +1,26 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
+export interface todoType {
+  id: string
+  name: string
+  dueDate: string
+  completed: boolean
+}
+
 interface projectType {
   id: string
   name: string
+  todos: todoType[]
 }
 
-const projectsInitial: projectType[] = [
-  {
-    id: crypto.randomUUID(),
-    name: ''
-  }
-]
-
 export const useProjectStore = defineStore('projects', () => {
-  const projects = ref<projectType[]>(projectsInitial)
+  const projects = ref<projectType[]>([] as projectType[])
 
-  const newProject = ref<projectType>({ id: crypto.randomUUID(), name: '' })
+  const newProject = ref<projectType>({} as projectType)
 
   function addProject(project: projectType) {
-    projects.value.push(project)
+    projects.value.push({ ...project, id: crypto.randomUUID() })
   }
 
   function removeProject(id: string) {
