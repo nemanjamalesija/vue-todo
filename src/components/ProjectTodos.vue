@@ -8,7 +8,7 @@ type todoProps = {
 const props = defineProps<todoProps>()
 </script>
 <template>
-  <li class="td">
+  <li class="td text-emerald-800 capitalize mb-1">
     <h4>{{ props.todoData.name }}</h4>
   </li>
 </template>

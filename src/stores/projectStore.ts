@@ -4,11 +4,9 @@ import { defineStore } from 'pinia'
 export interface todoType {
   id: string
   name: string
-  dueDate: string
-  completed: boolean
 }
 
-interface projectType {
+export interface projectType {
   id: string
   name: string
   todos: todoType[]
@@ -17,15 +15,20 @@ interface projectType {
 export const useProjectStore = defineStore('projects', () => {
   const projects = ref<projectType[]>([] as projectType[])
 
-  const newProject = ref<projectType>({} as projectType)
+  const newTodo = ref<todoType>({} as todoType)
 
   function addProject(project: projectType) {
-    projects.value.push({ ...project, id: crypto.randomUUID() })
+    projects.value.push({ ...project, todos: [], id: crypto.randomUUID() })
   }
 
   function removeProject(id: string) {
     return projects.value.filter((t) => t.id !== id)
   }
 
-  return { projects, addProject, removeProject, newProject }
+  function addTodo(id: string, todo: todoType) {
+    const currentProject = projects.value.find((pr) => pr.id === id)
+    currentProject?.todos.push({ ...todo })
+  }
+
+  return { projects, addProject, removeProject, newTodo, addTodo }
 })
